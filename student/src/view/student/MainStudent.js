@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import ShowData from "./ShowData";
+import {
+  getStudent,
+  getFaculty,
+  getMajor,
+} from "../../service/Student.service";
 
 function MainStudent() {
+  const [data, setData] = useState([]);
+  const [dataFaculty, setDataFaculty] = useState([]);
+  const [dataMajor, setDataMajor] = useState([]);
+
+  useEffect(() => {
+    get();
+    getFacultys();
+    getMajors(0);
+  }, []);
+
+  function get() {
+    let res = getStudent();
+    setData(res);
+  }
+
+  function getFacultys() {
+    let res = getFaculty();
+    setDataFaculty(res);
+  }
+
+  function getMajors(faculty) {
+    let res = getMajor(faculty);
+    console.log("getMajors", res);
+    setDataMajor(res);
+  }
+
   return (
     <div className="col-12">
       <Formik
@@ -29,20 +60,29 @@ function MainStudent() {
               </div>
               <div className="col-12 col-md-4 px-1 mt-1">
                 <label>คณะ</label>
-                <select className="form-control form-select">
-                  <option value="">Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                <select
+                  className="form-control form-select"
+                  onChange={(e) => {
+                    getMajors(e.target.value);
+                  }}
+                >
+                  <option value={0}>--เลือกคณะ--</option>
+                  {dataFaculty.map((item, index) => (
+                    <option key={item.id} value={item.id}>
+                      {item.faculty}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="col-12 col-md-4 px-1 mt-1">
                 <label>สาขา</label>
                 <select className="form-control form-select">
-                  <option value="">Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value={0}>--เลือกสาขา--</option>
+                  {dataMajor.map((item, index) => (
+                    <option key={item.id} value={item.id}>
+                      {item.major}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -67,7 +107,7 @@ function MainStudent() {
               </button>
             </div>
             <div>
-              <ShowData />
+              <ShowData data={data} />
             </div>
           </Form>
         )}

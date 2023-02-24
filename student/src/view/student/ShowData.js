@@ -1,6 +1,9 @@
 import React from "react";
+import Pagination from "react-js-pagination";
 
-function ShowData() {
+function ShowData({ data }) {
+  console.log("data", data);
+
   return (
     <div className="mt-5">
       <div className="d-flex justify-content-between">
@@ -28,44 +31,36 @@ function ShowData() {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">ชื่อ-นามสกุล</th>
+            <th scope="col">คณะ</th>
+            <th scope="col">สาขา</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
+          {data.map((item, index) => (
+            <tr key={index}>
+              <th scope="row">1</th>
+              <td>{item.name+' '+ item.lastname}</td>
+              <td>{item.faculty}</td>
+              <td>{item.major}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
+      <div className="d-flex justify-content-between">
+        <div>จำนวน 10 รายการ</div>
+        <div>
+          <Pagination
+            activePage={1}
+            itemsCountPerPage={10}
+            totalItemsCount={450}
+            pageRangeDisplayed={5}
+            onChange={() => {
+              console.log();
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
