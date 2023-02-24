@@ -1,14 +1,14 @@
-import React from 'react';
-import { Formik, Form } from 'formik';
-import ShowData from './ShowData';
+import React from "react";
+import { Formik, Form } from "formik";
+import ShowData from "./ShowData";
 
 function MainStudent() {
   return (
     <div className="col-12">
       <Formik
         initialValues={{
-          email: 'boom0928754237@gmail.com',
-          password: '',
+          email: "boom0928754237@gmail.com",
+          password: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
           console.log();
@@ -45,6 +45,26 @@ function MainStudent() {
                   <option value="3">Three</option>
                 </select>
               </div>
+            </div>
+            <div className=" d-flex justify-content-center">
+              <button
+                type="button"
+                className="btn btn-secondary mx-1"
+                onClick={() => {
+                  console.log();
+                }}
+              >
+                ค้นหา
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger mx-1"
+                onClick={() => {
+                  console.log();
+                }}
+              >
+                ล้างค่า
+              </button>
             </div>
             <div>
               <ShowData />

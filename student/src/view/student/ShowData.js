@@ -1,8 +1,29 @@
-import React from 'react';
+import React from "react";
 
 function ShowData() {
   return (
     <div className="mt-5">
+      <div className="d-flex justify-content-between">
+        <div>
+          <select className="form-control form-select">
+            <option value="{10}">10</option>
+            <option value="{20}">20</option>
+            <option value="{50}">50</option>
+            <option value="{100}">100</option>
+          </select>
+        </div>
+        <div>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={() => {
+              console.log();
+            }}
+          >
+            เพิ่ม
+          </button>
+        </div>
+      </div>
       <table className="table table-striped">
         <thead>
           <tr>
