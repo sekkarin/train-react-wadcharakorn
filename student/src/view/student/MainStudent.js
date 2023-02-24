@@ -11,16 +11,24 @@ function MainStudent() {
   const [data, setData] = useState([]);
   const [dataFaculty, setDataFaculty] = useState([]);
   const [dataMajor, setDataMajor] = useState([]);
+  const [pagin, setPagin] = useState({
+    totalrow: 0,
+    pagesize: 10,
+    currentpage: 1,
+    totalpage: 1,
+  });
 
   useEffect(() => {
-    get();
+    get("", 0, 0, 10, 1);
     getFacultys();
     getMajors(0);
   }, []);
 
-  function get() {
-    let res = getStudent();
-    setData(res);
+  function get(search, faculty, major, pagesize, currentpage) {
+    let res = getStudent(search, faculty, major, pagesize, currentpage);
+    console.log(res);
+    setData(res.data);
+    setPagin(res.pagin);
   }
 
   function getFacultys() {
@@ -30,7 +38,7 @@ function MainStudent() {
 
   function getMajors(faculty) {
     let res = getMajor(faculty);
-    console.log("getMajors", res);
+    //console.log("getMajors", res);
     setDataMajor(res);
   }
 
@@ -38,11 +46,12 @@ function MainStudent() {
     <div className="col-12">
       <Formik
         initialValues={{
-          email: "boom0928754237@gmail.com",
-          password: "",
+          search: "",
+          faculty: 0,
+          major: 0,
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log();
+        onSubmit={(values) => {
+          get(values.search, values.faculty, values.major);
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -51,19 +60,22 @@ function MainStudent() {
               <div className="col-12 col-md-4 px-1 mt-1">
                 <label>ค้นหา</label>
                 <input
+                  value={values.search}
                   type="text"
                   className="form-control"
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    setFieldValue("search", e.target.value);
                   }}
                 />
               </div>
               <div className="col-12 col-md-4 px-1 mt-1">
                 <label>คณะ</label>
                 <select
+                  value={values.faculty}
                   className="form-control form-select"
                   onChange={(e) => {
                     getMajors(e.target.value);
+                    setFieldValue("faculty", e.target.value);
                   }}
                 >
                   <option value={0}>--เลือกคณะ--</option>
@@ -76,7 +88,13 @@ function MainStudent() {
               </div>
               <div className="col-12 col-md-4 px-1 mt-1">
                 <label>สาขา</label>
-                <select className="form-control form-select">
+                <select
+                  value={values.major}
+                  className="form-control form-select"
+                  onChange={(e) => {
+                    setFieldValue("major", e.target.value);
+                  }}
+                >
                   <option value={0}>--เลือกสาขา--</option>
                   {dataMajor.map((item, index) => (
                     <option key={item.id} value={item.id}>
@@ -88,7 +106,7 @@ function MainStudent() {
             </div>
             <div className=" d-flex justify-content-center">
               <button
-                type="button"
+                type="submit"
                 className="btn btn-secondary mx-1"
                 onClick={() => {
                   console.log();
@@ -97,17 +115,27 @@ function MainStudent() {
                 ค้นหา
               </button>
               <button
-                type="button"
+                type="reset"
                 className="btn btn-danger mx-1"
                 onClick={() => {
-                  console.log();
+                  get("", 0, 0, 10, 1);
+                  getMajors(0);
                 }}
               >
                 ล้างค่า
               </button>
             </div>
             <div>
-              <ShowData data={data} />
+              <ShowData
+                data={data}
+                pagin={pagin}
+                changePage={(page) => {
+                  get(values.search, values.faculty, values.major, pagin.pagesize, page);
+                }}
+                changePageSize={(pagesize) => {
+                  get(values.search, values.faculty, values.major, pagesize, 1);
+                }}
+              />
             </div>
           </Form>
         )}

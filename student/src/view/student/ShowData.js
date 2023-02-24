@@ -1,18 +1,28 @@
 import React from "react";
 import Pagination from "react-js-pagination";
 
-function ShowData({ data }) {
+function ShowData({ data, pagin, changePage, changePageSize }) {
   console.log("data", data);
+  console.log("pagin", pagin);
+  //console.log("changePage",changePage);
+  //console.log("changePageSize", changePageSize);
 
   return (
     <div className="mt-5">
       <div className="d-flex justify-content-between">
         <div>
-          <select className="form-control form-select">
-            <option value="{10}">10</option>
-            <option value="{20}">20</option>
-            <option value="{50}">50</option>
-            <option value="{100}">100</option>
+          <select
+            value={pagin.pagesize}
+            className="form-control form-select"
+            onChange={(e) => {
+              console.log(e.target.value)
+              changePageSize(parseInt(e.target.value));
+            }}
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
           </select>
         </div>
         <div>
@@ -39,8 +49,10 @@ function ShowData({ data }) {
         <tbody>
           {data.map((item, index) => (
             <tr key={index}>
-              <th scope="row">1</th>
-              <td>{item.name+' '+ item.lastname}</td>
+              <th scope="row">
+                {(pagin.currentpage - 1) * pagin.pagesize + (index + 1)}
+              </th>
+              <td>{item.name + " " + item.lastname}</td>
               <td>{item.faculty}</td>
               <td>{item.major}</td>
             </tr>
@@ -48,15 +60,15 @@ function ShowData({ data }) {
         </tbody>
       </table>
       <div className="d-flex justify-content-between">
-        <div>จำนวน 10 รายการ</div>
+        <div>จำนวน {pagin.totalrow} รายการ</div>
         <div>
           <Pagination
-            activePage={1}
-            itemsCountPerPage={10}
-            totalItemsCount={450}
-            pageRangeDisplayed={5}
-            onChange={() => {
-              console.log();
+            activePage={pagin.currentpage}
+            itemsCountPerPage={pagin.pagesize}
+            totalItemsCount={pagin.totalrow}
+            pageRangeDisplayed={pagin.totalpage}
+            onChange={(page) => {
+              changePage(page);
             }}
           />
         </div>
