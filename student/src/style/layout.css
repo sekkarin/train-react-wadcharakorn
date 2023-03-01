@@ -7,10 +7,17 @@
     color: #fff;
 }
 
+<<<<<<< HEAD
+=======
+.pagination {
+    width: 100%;
+}
+>>>>>>> 07a0f329e0c3514a9abd0d6e6c71a47c0c813e09
 .pagination li {
     border: 1px solid #aaaa;
     height: 40px;
     width: 40px;
+<<<<<<< HEAD
     margin-right: 5px;
     text-align: center;
     padding-top: 2px;
@@ -24,4 +31,14 @@
 .pagination  .active {
     background-color: #562;
     
+=======
+    margin-left: 1px;
+    margin-right: 1px;
+    text-align: center;
+    padding-top: 10px;
+    font-size: 18px;
+}
+.pagination li a {
+    color: #000000;
+>>>>>>> 07a0f329e0c3514a9abd0d6e6c71a47c0c813e09
 }
